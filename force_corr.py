@@ -69,7 +69,7 @@ def main(argv):
             row.append(target_digit)  # target digit
             target_force = df[df['new'] == n]['tf_{}'.format(target_digit)].iloc[0] / mvcs[target_digit - 1][0]
             row.append(target_force)  # target force
-            row.append(df[df['new'] == n]['sf_{}'.format(target_digit)].mean())
+            row.append(df[df['new'] == n]['sf_{}'.format(target_digit)][100:-100].mean())
             target_acc = df[df['new'] == n]['f_{}'.format(target_digit)]/df[df['new'] == n]['tf_{}'.format(target_digit)]
             target_acc_u = target_acc.mean()
             for i in range(1, 6):
