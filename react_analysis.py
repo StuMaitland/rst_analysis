@@ -9,7 +9,7 @@ from scipy import signal
 
 Fs = 2000
 
-inputfile = '/Users/stuartbman/GitHub/rst_analysis/2021-07-23-vishnu/start_react_2021-07-23 13-47-19.491508.txt'
+inputfile = '/Users/stuartbman/GitHub/rst_analysis/data/2021-07-22-Sruti/start_react_2021-07-22 15-38-05.481453.txt'
 results = []
 trial_types = []
 emgs = []
@@ -58,7 +58,8 @@ for line in file:
     emg1 = make_sweep(parts[2:div], Fs)
     emg2 = make_sweep(parts[div + 1:], Fs)
 
-    emg = window_rms(emg1, 10)
+    #emg = window_rms(emg2, 100)
+    emg = emg1
     if t == 0:
         t = range(0, len(emg))
         t = [(a / Fs) - 0.1 for a in t]

@@ -81,12 +81,10 @@ def main(argv):
             result_df.loc[len(result_df)] = row
 
 
-    if outputfile:
-        result_df.to_csv("{}_results.txt".format(outputfile), index=False, float_format='%.3f')
-        fig = px.line(df, x='t', y=['sf_1', 'sf_2', 'sf_3', 'sf_4', 'sf_5', 'tf_1', 'tf_2', 'tf_3', 'tf_4', 'tf_5'])
-        fig.write_image("{}_force_graph.png".format(outputfile))
-    else:
-        print(result_df)
+    result_df.to_csv("{}_results.txt".format(outputfile), index=False, float_format='%.3f')
+    fig = px.line(df, x='t', y=['sf_1', 'sf_2', 'sf_3', 'sf_4', 'sf_5', 'tf_1', 'tf_2', 'tf_3', 'tf_4', 'tf_5'])
+    fig.write_image("{}_force_graph.png".format(outputfile))
+
     # step 0- standardise all forces to MVC
     # step 1- simple relationship between target force & target strength (simple R^2)
     # step 2- measure force leakage- perhaps a simple R2 between target strength & mean force on other digits
