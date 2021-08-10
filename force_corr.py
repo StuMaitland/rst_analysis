@@ -57,7 +57,7 @@ def main(argv):
     df = df.assign(new=df.target_digit.diff().ne(0).cumsum())
 
     result_df = pd.DataFrame(
-        columns=['group_id', 'target_digit', 'target_force', 'actual_force', 'indiv_index'])
+        columns=['group_id', 'target_digit', 'mvf', 'target_force', 'actual_force', 'indiv_index'])
 
     for n in df.new.unique():
         target_digit = df[df['new'] == n]['target_digit'].iloc[0] + 1
@@ -67,6 +67,7 @@ def main(argv):
             row.append(n)  # group index
 
             row.append(target_digit)  # target digit
+            row.append(mvcs[target_digit-1][0])
             target_force = df[df['new'] == n]['tf_{}'.format(target_digit)].iloc[0] / mvcs[target_digit - 1][0]
             row.append(target_force)  # target force
             row.append(df[df['new'] == n]['sf_{}'.format(target_digit)][100:-100].mean())
