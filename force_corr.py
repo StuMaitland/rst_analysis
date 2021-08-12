@@ -82,7 +82,7 @@ def main(argv):
             result_df.loc[len(result_df)] = row
 
 
-    result_df.to_csv("{}_results.txt".format(outputfile), index=False, float_format='%.3f')
+    result_df.to_excel("{}_results.xlsx".format(outputfile), index=False, float_format='%.3f')
     fig = px.line(df, x='t', y=['sf_1', 'sf_2', 'sf_3', 'sf_4', 'sf_5', 'tf_1', 'tf_2', 'tf_3', 'tf_4', 'tf_5'])
     fig.write_image("{}_force_graph.png".format(outputfile))
 
