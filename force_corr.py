@@ -58,29 +58,31 @@ def main(argv):
 
     result_df = pd.DataFrame(
         columns=['group_id', 'target_digit', 'mvf', 'target_force', 'actual_force', 'indiv_index'])
-
+    k=0
     for n in df.new.unique():
         target_digit = df[df['new'] == n]['target_digit'].iloc[0] + 1
         if target_digit > 0:
+            k+=1
             row = []
-            dev_all=[]
-            row.append(n)  # group index
+            dev_all = []
+            row.append(k)  # group index
 
             row.append(target_digit)  # target digit
-            row.append(mvcs[target_digit-1][0])
+            row.append(mvcs[target_digit - 1][0])
             target_force = df[df['new'] == n]['tf_{}'.format(target_digit)].iloc[0] / mvcs[target_digit - 1][0]
             row.append(target_force)  # target force
-            row.append(df[df['new'] == n]['sf_{}'.format(target_digit)][100:-100].mean())
-            target_acc = df[df['new'] == n]['f_{}'.format(target_digit)]/df[df['new'] == n]['tf_{}'.format(target_digit)]
+            actual_forces = df[df['new'] == n]['sf_{}'.format(target_digit)].reset_index(drop=True)
+            row.append(actual_forces[60:-20].mean())
+            target_acc = df[df['new'] == n]['f_{}'.format(target_digit)] / df[df['new'] == n][
+                'tf_{}'.format(target_digit)]
             target_acc_u = target_acc.mean()
             for i in range(1, 6):
-                if i ==target_digit:
+                if i == target_digit:
                     continue
-                dev = (abs(df[df['new'] == n]['f_{}'.format(i)]-base_f_u[i-1]))/base_f_sd[i-1]
+                dev = (abs(df[df['new'] == n]['f_{}'.format(i)] - base_f_u[i - 1])) / base_f_sd[i - 1]
                 dev_all.append(dev.mean())
             row.append(np.mean(dev_all))
             result_df.loc[len(result_df)] = row
-
 
     result_df.to_excel("{}_results.xlsx".format(outputfile), index=False, float_format='%.3f')
     fig = px.line(df, x='t', y=['sf_1', 'sf_2', 'sf_3', 'sf_4', 'sf_5', 'tf_1', 'tf_2', 'tf_3', 'tf_4', 'tf_5'])
